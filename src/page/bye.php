@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__.'/init.php';
+
 /**
  * Created by PhpStorm.
  * User: djspy
@@ -7,4 +7,3 @@ require_once __DIR__.'/init.php';
  * Time: 16:53
  */
 $response->setContent('goodbye!!');
-$response->send();
