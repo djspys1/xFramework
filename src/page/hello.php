@@ -1,1 +1,0 @@
-hello <?php echo htmlspecialchars(isset($name) ? $name : 'world', ENT_QUOTES, 'UTF-8'); ?>
