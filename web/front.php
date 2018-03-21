@@ -6,39 +6,12 @@
  * Time: 17:07
  */
 require_once __DIR__ . '/../vendor/autoload.php';
-use Simplex\ContentLengthListener;
-use Simplex\Framework;
-use Simplex\GoogleListener;
-use Symfony\Component\EventDispatcher\EventDispatcher;
+
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Controller\ArgumentResolver;
-use Symfony\Component\HttpKernel\Controller\ControllerResolver;
-use Symfony\Component\HttpKernel\HttpCache\Esi;
-use Symfony\Component\HttpKernel\HttpCache\HttpCache;
-use Symfony\Component\HttpKernel\HttpCache\Store;
-use Symfony\Component\Routing\Matcher\UrlMatcher;
-use Symfony\Component\Routing\RequestContext;
 
-$request  = Request::createFromGlobals();
 $routes = include __DIR__.'/../src/app.php';
+$container = include __DIR__.'/../src/container.php';
 
-$context = new RequestContext();
-$matcher = new UrlMatcher($routes, $context);
-
-$dispatcher = new EventDispatcher();
-$dispatcher->addSubscriber(new GoogleListener());
-$dispatcher->addSubscriber(new ContentLengthListener());
-
-$controllerResolver = new ControllerResolver();
-$argumentResolver = new ArgumentResolver();
-
-$framework = new Framework($dispatcher, $matcher, $controllerResolver, $argumentResolver);
-$framework = new HttpCache(
-    $framework,
-    new Store(__DIR__.'/../cache'),
-    new Esi(),
-    array('debug' => true)
-);
-
-$response = $framework->handle($request);
+$request = Request::createFromGlobals();
+$response = $container->get('framework')->handle($request);
 $response->send();
