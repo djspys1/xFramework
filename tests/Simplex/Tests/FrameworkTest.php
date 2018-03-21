@@ -13,6 +13,7 @@ use PHPUnit\Framework\TestCase;
 use Simplex\Framework;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ArgumentResolver;
+use Symfony\Component\HttpKernel\Controller\ArgumentResolverInterface;
 use Symfony\Component\HttpKernel\Controller\ControllerResolverInterface;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Matcher\UrlMatcherInterface;
@@ -39,8 +40,8 @@ class FrameworkTest extends TestCase
             ->method('getContext')
             ->will($this->returnValue($this->createMock(RequestContext::class)));
         $controllerResolver = $this->createMock(ControllerResolverInterface::class);
-        $arumentResolver = $this->createMock(ArgumentResolver::class);
+        $argumentResolver = $this->createMock(ArgumentResolverInterface::class);
 
-        return new Framework($matcher, $controllerResolver, $arumentResolver);
+        return new Framework($matcher, $controllerResolver, $argumentResolver);
     }
 }
